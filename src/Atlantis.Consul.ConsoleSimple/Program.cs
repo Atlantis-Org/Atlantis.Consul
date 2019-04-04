@@ -8,6 +8,35 @@ namespace Atlantis.Consul.ConsoleSimple
     {
         static void Main(string[] args)
         {
+            TestAtlantis();
+            
+            Console.WriteLine("Consul register done!");
+            Console.ReadKey();
+        }
+
+        private static void TestAtlantis()
+        {
+            var consulSetting=new ConsulSettingOptions()
+            {
+                ConsulAddressUrl="http://127.0.0.1:8500"
+            };
+            var serviceOptions=new ConsulServiceOptions()
+            {
+                ServiceName="Atlantis.Test",
+                Address="127.0.0.1",
+                Port=5001,
+                TTL=1000
+            };
+            
+            ConsulManager.Instance
+                .Init(consulSetting)
+                .WithServiceOptions(serviceOptions);
+
+            ConsulManager.Instance.Service.RegisteAsync().Wait();
+        }
+
+        private void TestConsul()
+        {
             var client = new ConsulClient();
             client.Config.Address = new Uri("http://127.0.0.1:8500");
 
@@ -22,7 +51,7 @@ namespace Atlantis.Consul.ConsoleSimple
                 Address = "127.0.0.1",
                 EnableTagOverride = false,
             };
-            
+
             var check = new AgentCheckRegistration()
             {
                 // ServiceID=service.ID,
@@ -30,8 +59,8 @@ namespace Atlantis.Consul.ConsoleSimple
                 Status = HealthStatus.Critical,
                 TTL = TimeSpan.FromMilliseconds(10)
             };
-            service.Check =check;
-            var result=client.Agent.ServiceRegister(service).Result;
+            service.Check = check;
+            var result = client.Agent.ServiceRegister(service).Result;
 
             var checkResult = client.Agent.CheckRegister(check).Result;
 
@@ -44,8 +73,6 @@ namespace Atlantis.Consul.ConsoleSimple
                 }
             });
 
-            Console.WriteLine("Consul register done!");
-            Console.ReadKey();
         }
     }
 }

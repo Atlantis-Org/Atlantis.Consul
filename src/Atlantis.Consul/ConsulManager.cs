@@ -7,13 +7,12 @@ namespace Atlantis.Consul
     {
         public static readonly ConsulManager Instance=new ConsulManager();
 
-        private readonly IService _service;
+        private IService _service;
         private ConsulClient _client;
         private ConsulSettingOptions _settingOptions;
 
         private ConsulManager()
         {
-            _service=new Service(_client);
         }
 
         public ConsulManager Init(ConsulSettingOptions setting)
@@ -21,6 +20,8 @@ namespace Atlantis.Consul
             _settingOptions=setting;
             _client=new ConsulClient();
             _client.Config.Address=new Uri(setting.ConsulAddressUrl);
+
+            _service=new Service(_client);
             return this;
         }
 
