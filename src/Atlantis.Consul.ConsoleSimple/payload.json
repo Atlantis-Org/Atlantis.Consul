@@ -1,0 +1,17 @@
+{
+	"ID": "redis1",
+	"Name": "redis",
+	"Tags": [
+	    "primary",
+	    "v1"
+	],
+	"Address": "127.0.0.1",
+	"Port": 8000,
+	"Meta": {
+	    "redis_version": "4.0"
+	},
+	"EnableTagOverride": false,
+	"Check": {
+		"TTL": "15s"
+	}
+}
