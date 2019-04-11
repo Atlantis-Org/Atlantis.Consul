@@ -5,13 +5,11 @@ namespace Atlantis.Consul
 {
     public class ConsulManager
     {
-        public static readonly ConsulManager Instance=new ConsulManager();
-
         private IService _service;
         private ConsulClient _client;
         private ConsulSettingOptions _settingOptions;
 
-        private ConsulManager()
+        public ConsulManager()
         {
         }
 
@@ -23,7 +21,7 @@ namespace Atlantis.Consul
 
             _service=new Service(_client);
             return this;
-        }
+        }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 
         public IService Service=>_service;
 
